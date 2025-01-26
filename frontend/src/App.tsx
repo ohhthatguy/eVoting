@@ -14,6 +14,7 @@ import CitizenHomePage from './ui/citizen/CitizenHomePage'
 import CitizenElectionPage from './ui/citizen/CitizenElectionPage'
 import AdminElection from './ui/admin/AdminElection'
 import AdminHomePage from './ui/admin/AdminHomePage'
+import History from './ui/History'
 
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
             <Route path='/admin' element={ (user?.user && user.user.role === "admin") && <AdminHomePage />} />
             <Route path='/admin-election' element={ (user?.user && user.user.role === "admin") && <AdminElection />} />
 
+            <Route path='/history' element={<History />} />
         
         </Route>
 

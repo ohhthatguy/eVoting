@@ -37,6 +37,10 @@ const Header = () => {
 
         <nav className="flex justify-around w-[20%]">
 
+      { users?.user !== undefined &&
+        <span className="hover:cursor-pointer hover:scale-110 active:scale-100 " onClick={()=> navigate('/history')}>History</span>
+      }
+
             <span className="hover:cursor-pointer hover:scale-110 active:scale-100 " onClick={()=> navigate('about')}>About</span>
 
             <span className="hover:cursor-pointer hover:scale-110 active:scale-100" onClick={ users?.user && users.user  ? handleLogOut : handleLogIn}> {(users?.user && users.user) ? 'logout' : 'login'}</span>

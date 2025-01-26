@@ -10,11 +10,14 @@ export const electionCreationSchema = z.object({
                     z.object({
                         name: z.string().min(3, "minimum 3 letters required").max(30, "max 30 letters"),
                         partyName: z.string().min(3, "minimum 3 letters required").max(30, "max 30 letters"),
-                        partyLogo: z.string().min(3, "minimum 3 letters required").max(30, "max 30 letters"),
-                        profile:z.string().min(3, "minimum 3 letters required").max(30, "max 30 letters"),
-                        vote: z.number()
+                        partyLogo: z.string().min(3, "minimum 3 letters required").max(600, "max 600 letters"),
+                        profile:z.string().min(3, "minimum 3 letters required").max(600, "max 600 letters"),
+                        vote: z.string()
                     })  
                 ),
+
+    createdBy: z.string(),
+    adminCitizenshipNum: z.string()
     
     
 })

@@ -5,6 +5,7 @@ const dotenv = require("dotenv").config();
 
 const databaseConnection = require('./database/database');
 const authRouter = require("./routes/auth.route")
+const adminElectionRoute = require("./routes/adminElection.route")
 
 const app = express();
 
@@ -24,10 +25,13 @@ const port = process.env.PORT;
 
 //auth routes
 app.use("/api/auth", authRouter)
+//election route for admin
+app.use("/admin/election", adminElectionRoute)
 
 
 app.listen(port, () => {
     console.log(`Connected to backend at port ${port}`);
+   
 });
 
 databaseConnection();

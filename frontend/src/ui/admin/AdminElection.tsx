@@ -1,22 +1,55 @@
 import {useContext} from 'react'
+import { useNavigate } from 'react-router-dom'
 
-import { useForm, SubmitHandler } from 'react-hook-form'
+import { useForm, SubmitHandler, useFieldArray } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { electionCreationSchema, electionCreationType } from './zod-schema-admin'
 
 import { AuthContext } from '../../context/auth'
-
+import { axiosInstance } from '@/utils/axios'
 
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 
 const AdminElection = () => {
   const user = useContext(AuthContext)
+  const navigate = useNavigate()
 
-  const { register } = useForm<electionCreationType>({
-    resolver: zodResolver(electionCreationSchema)
+  const { register, control, handleSubmit, formState:{errors, isSubmitting} } = useForm<electionCreationType>({
+    resolver: zodResolver(electionCreationSchema),
+    defaultValues: {
+      candidate: [{ name: '', partyName: '', partyLogo: '', profile: '' , vote: ''}],
+      createdBy: user?.user?.fullName,
+      adminCitizenshipNum : user?.user?.citizenshipNum
+  },
   })
 
+  const { fields, append, remove } = useFieldArray({
+    name: 'candidate',
+    control,
+   
+  })
+
+
+  const saveElectionCreation: SubmitHandler<electionCreationType>  = async(data)=>{
+    try{
+      console.log(data)
+      const res = await axiosInstance.post("/admin/election/createNew", data)
+      console.log(res)
+      navigate('/admin')
+
+
+    }catch(err:any){
+      console.log(err)
+      if(err?.status == '401'){
+          console.log(err?.data?.message)
+          user?.setUser(undefined)
+      }
+
+    }
+  }
+
+// console.log(errors)
 // handle from here
   return (<>
         <div className='bg-slate-700 h-screen'>
@@ -24,32 +57,62 @@ const AdminElection = () => {
             <div>{`Election Creating By ${user?.user?.fullName}`}</div>
 
           <div>
-            <form>
+            <form onSubmit={handleSubmit(saveElectionCreation)}>
 
               <Input placeholder='election title' {...register('electionTitle')} />
 
-              <div className='border-2 border-red-300'>
+              <div className='border-2 border-red-300 p-4'>
+                {
+                  
+                  fields.map((fields, index)=>(
+                    <div key={fields.id}>
+                        <Input placeholder='candidate Name' {...register(`candidate.${index}.name`)}/>
+                        <Input placeholder='Party Name' {...register(`candidate.${index}.partyName`)}/>
+                        
+                        <Input placeholder='candidate profile' {...register(`candidate.${index}.profile`)}/>
 
-                  <Input placeholder='candidate Name'/>
-                  <Input placeholder='Party Name'/>
-                  <Input placeholder='candidate profile'/>
-                  <Input placeholder='party logo'/>
-                  {/* <Input placeholder='vote'/> */}
+                        {errors?.candidate && errors.candidate[index]?.profile && <div className='text-red-500'>{errors?.candidate[index]?.profile.message}</div>}
+                        
+                        <Input placeholder='party logo' {...register(`candidate.${index}.partyLogo`)}/>
 
-              </div>
+                        {errors?.candidate && errors.candidate[index]?.partyLogo && <div className='text-red-500'>{errors?.candidate[index]?.partyLogo.message}</div>}
+                        {/* <Input placeholder='vote'/> */}
 
-                <div className='border-2 border-green-400 flex justify-between'>
+                        <Input placeholder='vote' {...register(`candidate.${index}.vote`)}/>
+                        {errors?.candidate && errors.candidate[index]?.vote && <div className='text-red-500'>{errors?.candidate[index]?.vote.message}</div>}
 
-                  <Button variant={'outline'}>Add</Button>
-                  <Button variant={'default'}>Done!</Button>
+
+                        <Button variant={'outline'} type='button' onClick={()=> remove(index)}>remove</Button>
+
+                    </div>
+
+                  ))
+                }
+                
+
+                  <div className='border-2 border-green-400 flex justify-between'>
+
+                  <Button type='button' variant={'outline'} onClick={()=> append({name: "", partyName: "", partyLogo: "", profile: "", vote: ""})}>Add</Button>
+
 
                 </div>
 
+              </div>
+
+                
+
+              {/* <Button type='submit' className='hover:cursor-pointer hover:scale-110 active:scale-100'>Submit!</Button> */}
+
+              <Button type="submit" disabled={isSubmitting} className="hover:cursor-pointer hover:scale-110 active:scale-100">
+          {isSubmitting ? 'Submitting...' : 'Submit!'}
+        </Button>
 
             </form>
+            {errors?.root && errors.root.message && <div className='text-red-500'>{errors.root.message}</div>}
           </div>
 
-
+          {/* <pre>{JSON.stringify(errors, null, 2)}</pre> */}
+          
         </div>
   </>)
 }

@@ -18,14 +18,20 @@ useEffect(() => {
           user?.setUser(verified.data);
       } catch (err) {
           console.error('Verification error:', err);
+
+          if(err && err.status && err.status == "401"){
+            user?.setUser(undefined)
+          }
           
       } finally {
           setLoading(false); 
       }
   };
-
+console.log("runnign")
   verifying();
 }, []);
+
+
 
 if (loading) {
   return <div>Loading...</div>; // Render loading indicator while verifying

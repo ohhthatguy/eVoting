@@ -94,7 +94,7 @@ const bcrypt = require("bcrypt")
 
  const check = (req,res)=>{
     try{
-        console.log(req.verifiedUser)
+        // console.log(req.verifiedUser)
         res.status(200).json(req.verifiedUser)
     }catch(err){
         return res.status(500).json({message: " something happened at check at auth.controller "})
