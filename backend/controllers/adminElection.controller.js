@@ -1,5 +1,4 @@
-const db = require("../database/database")
-const mongoose = require("mongoose")
+
 const electionModel = require("../models/election.model")
 const electionHistoryModel = require("../models/electionHistory.model")
 

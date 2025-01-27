@@ -18,7 +18,7 @@ const AdminElection = () => {
   const { register, control, handleSubmit, formState:{errors, isSubmitting} } = useForm<electionCreationType>({
     resolver: zodResolver(electionCreationSchema),
     defaultValues: {
-      candidate: [{ name: '', partyName: '', partyLogo: '', profile: '' , vote: ''}],
+      candidate: [{ name: '', partyName: '', partyLogo: '', profile: '' , vote: 0}],
       createdBy: user?.user?.fullName,
       adminCitizenshipNum : user?.user?.citizenshipNum
   },
@@ -32,8 +32,9 @@ const AdminElection = () => {
 
 
   const saveElectionCreation: SubmitHandler<electionCreationType>  = async(data)=>{
+    // console.log(data)
+
     try{
-      console.log(data)
       const res = await axiosInstance.post("/admin/election/createNew", data)
       console.log(res)
       navigate('/admin')
@@ -60,6 +61,7 @@ const AdminElection = () => {
             <form onSubmit={handleSubmit(saveElectionCreation)}>
 
               <Input placeholder='election title' {...register('electionTitle')} />
+              {errors && errors.electionTitle && <div className='text-red-500'>{errors?.electionTitle.message}</div>}
 
               <div className='border-2 border-red-300 p-4'>
                 {
@@ -67,7 +69,11 @@ const AdminElection = () => {
                   fields.map((fields, index)=>(
                     <div key={fields.id}>
                         <Input placeholder='candidate Name' {...register(`candidate.${index}.name`)}/>
+                        {errors?.candidate && errors.candidate[index]?.name && <div className='text-red-500'>{errors?.candidate[index]?.name.message}</div>}
+
                         <Input placeholder='Party Name' {...register(`candidate.${index}.partyName`)}/>
+                        {errors?.candidate && errors.candidate[index]?.partyName && <div className='text-red-500'>{errors?.candidate[index]?.partyName.message}</div>}
+
                         
                         <Input placeholder='candidate profile' {...register(`candidate.${index}.profile`)}/>
 
@@ -78,8 +84,8 @@ const AdminElection = () => {
                         {errors?.candidate && errors.candidate[index]?.partyLogo && <div className='text-red-500'>{errors?.candidate[index]?.partyLogo.message}</div>}
                         {/* <Input placeholder='vote'/> */}
 
-                        <Input placeholder='vote' {...register(`candidate.${index}.vote`)}/>
-                        {errors?.candidate && errors.candidate[index]?.vote && <div className='text-red-500'>{errors?.candidate[index]?.vote.message}</div>}
+                        {/* <Input placeholder='vote' {isN} {...register(`candidate.${index}.vote`)}/>
+                        {errors?.candidate && errors.candidate[index]?.vote && <div className='text-red-500'>{errors?.candidate[index]?.vote.message}</div>} */}
 
 
                         <Button variant={'outline'} type='button' onClick={()=> remove(index)}>remove</Button>
@@ -92,7 +98,7 @@ const AdminElection = () => {
 
                   <div className='border-2 border-green-400 flex justify-between'>
 
-                  <Button type='button' variant={'outline'} onClick={()=> append({name: "", partyName: "", partyLogo: "", profile: "", vote: ""})}>Add</Button>
+                  <Button type='button' variant={'outline'} onClick={()=> append({name: "", partyName: "", partyLogo: "", profile: "", vote: 0})}>Add</Button>
 
 
                 </div>

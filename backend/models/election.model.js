@@ -5,7 +5,7 @@ const candidateSchema =  mongoose.Schema({ // Use mongoose.Schema
     partyName: { type: String, required: true},
     partyLogo: { type: String, required: true},
     profile: { type: String, required: true},
-    vote: { type: String, required: true },
+    vote: { type: Number, required: true },
 });
 
 const electionSchema =  mongoose.Schema({ // Use mongoose.Schema

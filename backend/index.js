@@ -6,6 +6,7 @@ const dotenv = require("dotenv").config();
 const databaseConnection = require('./database/database');
 const authRouter = require("./routes/auth.route")
 const adminElectionRoute = require("./routes/adminElection.route")
+const citizenElectionRoute = require("./routes/citizenElection.route")
 
 const app = express();
 
@@ -27,6 +28,9 @@ const port = process.env.PORT;
 app.use("/api/auth", authRouter)
 //election route for admin
 app.use("/admin/election", adminElectionRoute)
+
+//election route for citizen
+app.use("/election", citizenElectionRoute)
 
 
 app.listen(port, () => {

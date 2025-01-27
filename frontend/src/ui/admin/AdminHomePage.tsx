@@ -140,7 +140,7 @@ const [updateElectionData, setUpdateElectionData] = useState<boolean>(false)
                   {
 
                     e.candidate.map((ele,index)=>(
-                      <TableRow>
+                      <TableRow key={index}>
                     <TableCell className="font-medium">{ele.name}</TableCell>
                     <TableCell>{ele.partyName}</TableCell>
                     {/* <TableCell>Credit Card</TableCell> */}

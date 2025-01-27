@@ -24,12 +24,12 @@ export const signupSchema = z.object({
     confirmPassword: z.string(),
     
 
-
     phoneNum: z.string()
     .min(1, "Citizenship number is required") // Ensure it's not empty
     .max(14, "maximum digit reached")
     .regex(/^\d+$/, "Citizenship number must contain only digits"),
 
+    
 }).refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"], // Indicate the error on the confirmPassword field

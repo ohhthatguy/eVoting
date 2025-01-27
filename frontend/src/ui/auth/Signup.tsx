@@ -17,7 +17,8 @@ const Signup = () => {
   
 
   const {register, handleSubmit, setError, formState:{errors, isSubmitting}} = useForm<signupType>({
-    resolver: zodResolver(signupSchema)
+    resolver: zodResolver(signupSchema),
+    
   })
 
  
@@ -28,6 +29,8 @@ const Signup = () => {
 
     // /singup is used for role=citizen
     const role = (user?.admin) ? "admin" : "citizen";
+    
+    
     const {citizenshipNum, fullName, password, phoneNum} = data
 
     const dataToPost = {citizenshipNum, fullName, password, phoneNum, role}
