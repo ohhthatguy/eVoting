@@ -2,6 +2,7 @@
 const electionModel = require("../models/election.model")
 const electionHistoryModel = require("../models/electionHistory.model")
 
+
 const createNewElection = async(req, res)=>{
     // console.log(req.body)
     const {electionTitle, adminCitizenshipNum} = req.body
@@ -118,4 +119,18 @@ const getElectionHistoryData = async(req,res)=>{
     }
 }
 
-module.exports = { createNewElection, getElectionData, moveElectionDataToHistory, getElectionHistoryData }
+const uploadProfile = (req,res)=>{
+  console.log(req.file)
+  if (!req.file) {
+      return res.status(400).send('No file uploaded.');
+    }
+  
+  res.status(200).send({ message: 'File uploaded successfully.'  , url: `http://localhost:${process.env.PORT}/public/${req.file.filename}`});
+}
+
+// const getProfile = (req,res)=>{
+
+// }
+
+
+module.exports = { createNewElection, getElectionData, moveElectionDataToHistory, getElectionHistoryData, uploadProfile }

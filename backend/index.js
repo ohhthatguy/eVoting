@@ -24,6 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 
 const port = process.env.PORT;
 
+
 //auth routes
 app.use("/api/auth", authRouter)
 //election route for admin
@@ -31,6 +32,9 @@ app.use("/admin/election", adminElectionRoute)
 
 //election route for citizen
 app.use("/election", citizenElectionRoute)
+
+//for static images
+app.use('/public', express.static('public'))
 
 
 app.listen(port, () => {

@@ -20,7 +20,7 @@ import History from './ui/History'
 function App() {
   // const [count, setCount] = useState(0)
   const user = useContext(AuthContext);
-  console.log(user?.user)
+  // console.log(user?.user)
 
 
   return (

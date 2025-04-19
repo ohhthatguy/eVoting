@@ -3,8 +3,11 @@ import { AuthContext } from "../../context/auth"
 import { axiosInstance } from "@/utils/axios"
 import { electionCreationType } from "../admin/zod-schema-admin"
 import { Button } from "@/components/ui/button"
+import { useNavigate } from "react-router-dom"
 
 const CitizenHomePage = () => {
+
+  const naviagte = useNavigate()
 
   type alreadyVotedType = {
     voter: string,
@@ -85,7 +88,8 @@ const CitizenHomePage = () => {
        
       },[])
 
-      console.log(alreadyVotedList)
+   
+    
 
 
       const handleVoteUpdate = async(e:any)=>{
@@ -103,12 +107,14 @@ const CitizenHomePage = () => {
           //update vote first
           const argsForUpdatingVote = {
 
-            newVote: e.vote++,
+            newVote: e.vote,
             _idcandidate: e._id,
             _idelectionList: k,
            
 
           }
+
+          console.log(argsForUpdatingVote)
           try{
 
               const res = await axiosInstance.put("/election/updateVote", argsForUpdatingVote)
@@ -130,7 +136,7 @@ const CitizenHomePage = () => {
             }
           }
 
-          //update the voter id in already voted list
+          // update the voter id in already voted list
           if(voteUpdated){
 
 
@@ -162,7 +168,12 @@ const CitizenHomePage = () => {
               user?.setUser(undefined)
             }
           }
+
           }
+
+
+          //return to top
+          window.location.reload();
 
         }
         
@@ -173,6 +184,9 @@ const CitizenHomePage = () => {
         const hasBeenVoted = alreadyVotedList &&  (alreadyVotedList as any).votedElection
         .some((ele:any) => ele === e._id )
         console.log(alreadyVotedList)
+
+
+        // open this wehn using
         if(hasBeenVoted){
           alert("you have already voted this election")
         }else{
@@ -180,59 +194,109 @@ const CitizenHomePage = () => {
           setElectionToVote(e)
         }
 
+
+
+      }
+
+      const handleClosing = ()=>{
+        setElectionToVote(undefined)
+
       }
 
   return (
     <div className="bg-slate-700 h-screen">
-        <div>
-        {`Welcome Citizen, mr. ${user?.user?.fullName}`}
+
+        <div className="text-white font-bold text-2xl   p-3">
+       well aren't a good citizen,<br/>  <span className="text-3xl"> {` Mr. ${user?.user?.fullName}`} </span>
       </div>
 
+
+<div className="mt-4 bg-red-950  p-3">
+
+      <div>
+        <h2 className="text-white font-extralight text-3xl "> Available Election: </h2>
+
+      </div>
         
        {
           (electionList && electionList.length > 0) ? 
           
           <div>
+
+            <div className="grid mt-8 place-content-center place-items-center grid-cols-3">
             {
               electionList.map((e,index)=>(
               <div>
 
-                  <div key={index} className='bg-red-400 w-44 h-24 hover:cursor-pointer hover:scale-105 active:scale-100' onClick={()=> handlefirstClick(e)}>
-                    <div className='text-2xl '>{e.electionTitle}</div>
+                  <div key={index} className='bg-red-400 w-56 min-w-fit rounded-xl h-52 hover:cursor-pointer hover:scale-105 active:scale-100 grid place-content-center ' onClick={()=> handlefirstClick(e)}>
+
+                    
+                  
+
+                    <div className='text-2xl font-bold text-white'>{e.electionTitle}</div>
+
                     <div>{`createdBy: ${e.createdBy}`}</div>
+
                   </div>
 
                   </div>))
             }
+            </div>
+
 
             {   
             (electionToVote ) && 
                   
-                    <div className="border-2 border-red-700 p-2">
+                    <div className="border-2 border-yellow-700 p-2 bg-slate-700 mt-10">
+
+                      <div className="mb-4 flex justify-between">
+                        <div className="font-bold text-white text-3xl">{electionToVote.electionTitle}</div>
+                        <Button onClick={handleClosing}>X</Button>
+                      </div>
+                      
+                      <div className="grid place-content-center grid-cols-2 gap-6">
                       {
                         electionToVote.candidate.map((e, index)=>(
 
-                            <div key={index} className="border-2 border-green-300 p-2">
+                            <div key={index} className="border-2 border-green-300 p-4 bg-gradient-to-r from-black to-gray-600 h-80 rounded-md">
 
-                            <div>
-                              {`partylogo: ${e.partyLogo}`}
-                              <div>{`profile: ${e.profile} `}</div>
+                            <div className= 'h-[60%] bg-cover bg-center'  style={{backgroundImage: `url("${e.profile}")`}} >
+                              {/* background is party logo */}
+                             
+                              <div> 
+                                <img src={e.partyLogo} alt="profile here" height={100} width={150} />
+                               
+
+                              </div>
+                             
 
                             </div>
                             
-                            <div>
-                            {`  candiadteName: ${e.name} \n
-                              party: ${e.partyName}`}
+                            <div className="h-[30%] text-white text-xl p-2">
+
+                              <div>
+                                <span className="text-2xl font-bold">Name:</span> 
+                                {` ${e.name} `}
+                              </div>
+
+                              <div>
+                                <span className="text-2xl font-bold">party:</span>
+                                {` ${e.partyName}`}
+                                </div>
                             </div>
 
-                            <div>
-                              <Button variant={"outline"} onClick={()=>handleVoteUpdate(e)}>Vote</Button>
-                            </div>
+                            
+                              <Button variant={"outline"} className="w-full hover:bg-black hover:text-white" onClick={()=>handleVoteUpdate(e)}>Vote</Button>
+                            
+
+                          
+
                           </div>
 
                         ))
                         
                       }
+                      </div>
                     
                     </div>
             }
@@ -246,6 +310,7 @@ const CitizenHomePage = () => {
 
 
        }
+</div>
 
     </div>
   )

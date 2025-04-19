@@ -11,4 +11,5 @@ router.post("/votedElectionList", authenticate, getAlreadyVotedList)
 router.put("/upsertVotedElectionList", authenticate, makeAlreadyVotedList)
 router.put("/updateVote", authenticate, updateVote)
 
+
 module.exports = router

@@ -52,93 +52,99 @@ const Signup = () => {
 
   return (
     <>
-      <div className='border-2 border-red-300 h-screen bg-slate-700 p-6'>
+      <div className='border-2 border-red-300 h-screen bg-slate-700 bg-gradient-to-r from-blue-700 to-blue-900 p-6 flex justify-center items-center'>
         
-        <section>
-          Welcome
-        </section>
+       <div className=' bg-slate-700  flex flex-col justify-center items-center gap-2 p-2 rounded-lg '>
 
-          <form onSubmit={handleSubmit(handleSignup)} className={`border-2  border-yellow-800  flex flex-col justify-center items-center gap-5 p-3 ${user?.admin && "bg-indigo-600"  }`}>
+       <div className=' w-full p-4 flex justify-between'>
+            <div>
+            <h1 className='text-3xl font-bold text-white'>SignUp</h1>
 
-            {/* <div className='border-2 border-red-600 '> */}
-          
-              
-                <label>
+            <div className=' text-lg font-light text-white'> Please Signup with correct credentials. </div>
+            </div>
+            <div className='text-white'>back to <span className='font-bold text-white hover:cursor-pointer hover:text-yellow-300 ' onClick={()=> navigate('/login')}>login</span></div>
 
-                  {/* <span>fullname</span> */}
-                  {/* <input type="text" {...register('fullName')}  placeholder="Full Name" className="input input-md focus:outline-0 " /> */}
+          </div>
 
+          <form onSubmit={handleSubmit(handleSignup)} className=' w-full flex flex-col gap-3 p-3'>
+
+  
+                <div>
+
+                 
+                  <label className='text-white font-bold'>FullName</label>
                   <Input {...register('fullName')}  placeholder="Full Name" />
 
                   {errors.fullName && (<div className='text-red-500'>{errors.fullName.message}</div>)}
 
 
-                </label>
+                </div>
 
-                <label>
+                <div>
 
-                {/* <span>citizenship </span> */}
-                    {/* <input type="text" {...register('citizenshipNum')}  placeholder="citizenship" className="input input-md focus:outline-0 " /> */}
+                <label className='text-white font-bold'>CitizenShip Number</label>
+
 
                     <Input {...register('citizenshipNum')}  placeholder="citizenship" />
 
                     {errors.citizenshipNum && (<div className='text-red-500'>{errors.citizenshipNum.message}</div>)}
 
-                </label>
+                </div>
 
+                <div>
 
-              
+                <label className='text-white font-bold'>Phone Number</label>
 
-                <label>
-
-                {/* <span>password</span> */}
-                    {/* <input type="text" {...register('phoneNum')}  placeholder="Phone Number" className="input input-md focus:outline-0 " /> */}
 
                     <Input {...register('phoneNum')}  placeholder="Phone Number" />
 
                     {errors.phoneNum && (<div className='text-red-500'>{errors.phoneNum.message}</div>)}
 
-                </label>
+                </div>
 
-                <label>
+                <div>
 
-                {/* <span>password</span> */}
-                    {/* <input type="text" {...register('password')}  placeholder="Password" className="input input-md focus:outline-0 " /> */}
+                <label className='text-white font-bold'>Password</label>
 
                     <Input {...register('password')}  placeholder="Password" />
 
                     {errors.password && (<div className='text-red-500'>{errors.password.message}</div>)}
 
-                </label>
+                </div>
 
-                <label>
+                <div>
 
-                {/* <span>password</span> */}
-                    {/* <input type="text" {...register('confirmPassword')}  placeholder="confirm password" className="input input-md focus:outline-0 " /> */}
+                <label className='text-white font-bold'>Confirm Password</label>
+
 
                     <Input {...register('confirmPassword')}  placeholder="confirm password"  />
 
                     {errors.confirmPassword && (<div className='text-red-500'>{errors.confirmPassword.message}</div>)}
 
-                </label>
+                </div>
 
 
+                <Button disabled={isSubmitting} type='submit'>{isSubmitting ? "submitting" : "submit"}</Button>
 
 
-
-
-              {/* </div> */}
-
-            
-              <Button disabled={isSubmitting} type='submit'>{isSubmitting ? "submitting" : "submit"}</Button>
-              <Button onClick={()=> navigate('/login')}>login</Button>
+            <div className=''>
+              
+              
 
 
               {errors.root && (<div className='text-red-500'>{errors.root.message}</div>)}
-            
-              <Button onClick={()=> user?.setAdmin(prev=> !prev)}> {(user?.admin) ? "signingup as admin" : "signingup as citizen"}</Button>
+              
+              <div>
+                <Button onClick={()=> user?.setAdmin(prev=> !prev)}> {(user?.admin) ? "signingup as admin" : "signingup as citizen"}</Button>
+              </div>
+              
+              </div>
 
             </form>
+        
+        
+        </div>
+
 
       </div>
 

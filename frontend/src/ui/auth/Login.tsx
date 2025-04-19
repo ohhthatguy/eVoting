@@ -54,85 +54,81 @@ const Login = () => {
   }
 
 
-  // const handleLogout = async()=>{
-  //   try{
-
-  //     const userFromDB = await axiosInstance.get("/api/auth/logout")
-  //     console.log(userFromDB)
-
-  //   }catch(err){
-  //     console.log(err);
-  //   }
-  // }
+ 
 
   return (
     <>
-      <div className='border-2 border-red-300 h-screen bg-slate-700 p-6'>
+      <div className='h-screen bg-gradient-to-r from-blue-700 to-blue-900 p-6 flex justify-center items-center'>
         
-        <section>
-          Welcome
-        </section>
 
-      
+        <div className=' bg-slate-700  flex flex-col justify-center items-center gap-5 p-2 rounded-lg '>     
 
-          <form onSubmit={handleSubmit(handleLogin)} className={`border-2 border-yellow-800  flex flex-col justify-center items-center gap-5 p-3 `}>
+          <div className=' w-full '>
+            
+            <h1 className='text-3xl font-bold text-white'>Login</h1>
 
-            {/* <div className='border-2 border-red-600 '> */}
+            <div className=' text-lg font-light text-white'>Welcome Back! Please Login to your Account. </div>
+
+
+          </div>
+
+          <form onSubmit={handleSubmit(handleLogin)} className=' w-full flex flex-col gap-8 p-3'>
+
+          
           
               
-                <label>
+                <div >
 
-                  {/* <span>fullname</span> */}
-                  {/* <input type="text" {...register('fullName')}  placeholder="Full Name" className="input input-md focus:outline-0 " /> */}
-
+                  <label className='font-semibold text-white'>FullName</label>
+                  
                   <Input {...register('fullName')} placeholder="Full Name" />
 
                   {errors.fullName && (<div className='text-red-500'>{errors.fullName.message}</div>)}
 
 
-                </label>
+                </div>
 
-                <label>
+                <div>
 
-                {/* <span>citizenship </span> */}
-                {/* <input type="text" {...register('citizenshipNum')}  placeholder="citizenship" className="input input-md focus:outline-0 " /> */}
+                <label className='font-semibold text-white'>CitizenShip Number</label>
+
                 <Input {...register('citizenshipNum')} placeholder="citizenship" />
 
 
                 {errors.citizenshipNum && (<div className='text-red-500'>{errors.citizenshipNum.message}</div>)}
 
-                </label>
+                </div>
 
 
-                <label>
+                <div>
 
-                  {/* <span>password</span> */}
-                  {/* <input type="text" {...register('password')}  placeholder="Password" className="input input-md focus:outline-0 " /> */}
+                <label className='font-semibold text-white'>Password</label>
+
                 <Input {...register('password')} placeholder="Password" />
 
                   
 
                   {errors.password && (<div className='text-red-500'>{errors.password.message}</div>)}
 
-                </label>
-              {/* </div> */}
+                </div>
+                  
 
-            
               <Button type='submit'>Login</Button>
-              <Button onClick={()=> navigate('/signup')}>signup</Button>
-
+              
+              
+              <div>
+                New user? <span className='font-bold text-white hover:cursor-pointer hover:text-yellow-300 ' onClick={()=> navigate('/signup')}> Create a New Account</span>
+              
+              </div>
+            
 
               {errors.root && (<div className='text-red-500'>{errors.root.message}</div>)}
             
-
-
-              
-            
-            
+      
             </form>
 
             
-
+        </div>
             
         
 

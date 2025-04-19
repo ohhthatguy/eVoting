@@ -91,7 +91,8 @@ const updateVote = async(req,res)=>{
             },
 
             {
-                $set: { "candidate.$.vote": newVote}
+                // $set: { "candidate.$.vote": newVote}
+                $inc: { "candidate.$.vote": 1 } // Increment vote by 1
             
             },
 
@@ -106,7 +107,7 @@ const updateVote = async(req,res)=>{
                 message: "Election or candidate not found",
               });
         }
-        return res.status(200).json({message: " votedupdated"});
+        return res.status(200).json({message: " votedupdated", updatedVote: updateTheVote});
         
 
     }catch(err){
@@ -115,4 +116,6 @@ const updateVote = async(req,res)=>{
     }
 }
 
-module.exports = {getElectionListToVote, getAlreadyVotedList, makeAlreadyVotedList,updateVote}
+
+
+module.exports = {getElectionListToVote, getAlreadyVotedList, makeAlreadyVotedList,updateVote  }
